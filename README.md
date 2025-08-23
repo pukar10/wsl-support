@@ -15,3 +15,19 @@ $Principal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -RunLevel Highest -Logo
 
 Register-ScheduledTask -TaskName "WSL Portproxy" -Action $Action -Trigger $Trigger -Principal $Principal -Description "WSL portproxy on boot" | Out-Null
 ```
+
+3. Allow pings to Host
+```
+New-NetFirewallRule -DisplayName "Allow ICMPv4-In" -Protocol ICMPv4 -IcmpType 8 -Direction Inbound -Action Allow -Profile Any
+```
+
+4. Verify
+```
+Ping Host
+ping <host_IP>
+
+Ping WSL
+ping -p 2222 <host_IP>
+```
+
+Your WSL VM should now be accessible
